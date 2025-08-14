@@ -11,16 +11,17 @@ if(start_sys === "BIN") {
         for (let i = 0; i < _num.length; i++) {
             converted += parseInt(_num[i]) * Math.pow(2, _num.length - 1 - i);
         }
+        console.log(converted);
     }
 } else if(start_sys === "DEC") {
     if(target_sys === "BIN") {
-        let converted = "";
+        let converted = "0";
         (function takeLogs(num) {
             if(num === 0) return;
-            let temp = Math.floor(Math.log2(_num));
+            let temp = Math.floor(Math.log2(num));
             converted += ` + 2^${temp}`;
             takeLogs(num - Math.pow(2, temp));
         })(_num)
+        console.log(converted);
     }
 }
-console.log(converted);
