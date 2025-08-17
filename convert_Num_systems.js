@@ -5,6 +5,11 @@ const [start_sys, target_sys, _num] = (() => {
 })()
 const symbols = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
 if(_num <= 0) throw new Error("Number must be over 0");
+(() => {
+    for (let i = 0; i < _num.length; i++) {
+        if(symbols.indexOf(_num[i]) >= start_sys) throw new Error(`Same Powers can't occur more often then there are symbols for each base. ${_num[i]} >= ${start_sys}`);
+    }
+})();
 
 // const result = (function convert() {
 //     if(start_sys === "BIN") {
@@ -50,8 +55,17 @@ if(_num <= 0) throw new Error("Number must be over 0");
 //         }
 //     }
 // })();
+const result = convert(start_sys, target_sys, _num);
+console.log(result);
 
-// console.log(result);
+function convert(start, target, num) {
+    let converted = [], dec = 0;
+
+    for (let i = 0; i < num.length; i++) {
+        dec += symbols.indexOf(num[i]) * Math.pow(start, num.length - 1 - i);     
+    }
+    return dec;
+}
 
 function log(n, m) {
     return Math.log(m) / Math.log(n);
@@ -64,6 +78,7 @@ function countElements(array) {
     for (const element of array) {
         if(element === prev) {
             symbolIndex++;
+            if(symbolIndex >= symbols.length) throw new Error("Same Powers can't occur more often then there are symbols for each base. Please check your input!");
             count[count.length - 1] = symbols[symbolIndex];
         } else {
             symbolIndex = 1;
@@ -71,7 +86,5 @@ function countElements(array) {
         }        
         prev = element;
     }
-    console.log(count);
+    return count;
 }
-
-countElements([1, 1, 1, 1, 3, 3, 3, 3, 3]);
